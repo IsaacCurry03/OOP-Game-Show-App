@@ -1,36 +1,35 @@
-/* Treehouse FSJS Techdegree
- * Project 4 - OOP Game App
- * app.js */
+const startButton = document.getElementById('btn__reset');
+const game = new Game();
 
-const overlay = document.getElementById('overlay') ;
-const gamereset = document.getElementById('btn__reset');
-const qwerty = document.getElementById('qwerty');
+startButton.addEventListener('click', function() {
+  // remove all li elements from the phrase
+  const phraseDisplay = document.querySelectorAll('#phrase li');
+  phraseDisplay.forEach(item => {
+    item.remove();
+  });
 
+  // enable all the onscreen keyboard buttons
+  const keyboard = document.querySelectorAll('.keyrow button');
 
-let game = new Game();
+  keyboard.forEach(key => {
+    key.setAttribute('class', 'key');
+  });
 
-const resetDisplay = () =>{
-overlay.className = 'start';
-overlay.style.display = 'none';
-};
+  // reset all the heart images
+  const lives = document.querySelectorAll('.tries');
 
-const markButton = (button) =>{
-button.disabled=true;
-// calls out the game 
-game.handleInteraction(button);
-};
+  lives.forEach(live => {
+    let img = live.firstChild;
+    img.setAttribute('src', 'images/liveHeart.png');
+  });
 
-gamereset.addEventListener('click', ()=>{
-resetDisplay();
-game=new Game();
-game.startGame();
+  game.startGame();
 });
-// basically activates the buttons on the keyboard
-qwerty.addEventListener('click',(event)=>{
-    if (event.target.className==='key'){
-        markButton(event.target);
-    }
-    
 
-    
+// register clicks keyboard buttons
+const keyBoard = document.getElementById('qwerty');
+keyBoard.addEventListener('click', function(e) {
+  if (e.target.tagName === 'BUTTON') {
+    game.handleInteraction(e.target);
+  }
 });
