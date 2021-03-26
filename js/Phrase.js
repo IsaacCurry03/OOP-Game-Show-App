@@ -2,52 +2,47 @@
  * Project 4 - OOP Game App
  * Phrase.js */
 class Phrase {
-constructor(phrase){
-this.phrase = phrase.toLowerCase();
-}
-addPhraseToDisplay() {
-        
-        for (let i = 0; i < this.phrase.length; i++) {
+  constructor(phrase) {
+    this.phrase = phrase.toLowerCase();
+  }
 
-            if (this.phrase.charAt(i) !== ' ') {
-                const elementLi = document.createElement('LI');
-                elementLi.setAttribute('class', `hide letter ${this.phrase.charAt(i)}`);
+  addPhraseToDisplay() {
+    const phraseDiv = document.querySelector('#phrase ul');
 
-                document.querySelector("ul").appendChild(elementLi);
-                elementLi.textContent = `${this.phrase.charAt(i)}`;
+    // loop through the phrase and add for every letter or space a list element to the unorderd list
+    for (let i = 0; i < this.phrase.length; i += 1) {
+      let li = document.createElement('li');
+      let char = this.phrase[i];
 
-            } else {
-                const elementLi = document.createElement('LI');
-                elementLi.setAttribute('class', 'hide space');
-                document.querySelector("ul").appendChild(elementLi);
-
-                elementLi.textContent = ' ';
-            }
-        }
+      if (char === ' ') {
+        // an li with a space gets the 'space' class
+        li.className = 'hide space';
+      } else {
+        // an li with a letter gets the 'letter' class
+        li.className = `hide letter ${char}`;
+      }
+      li.textContent = char;
+      phraseDiv.appendChild(li);
     }
+  }
 
-    
-
-    checkLetter(letter) {
-
-        if (this.phrase.includes(letter) === true) {
-            return true;
-        } else {
-            return false;
-        }
+  checkLetter(letter) {
+    // check if the guessed letter is in the phrase
+    if (this.phrase.includes(letter)) {
+      return true;
+    } else {
+      return false;
     }
-    showMatchedLetter(letter){
-        
-        const allLetters=document.querySelectorAll('#phrase li');
-        for (let i=0; i<allLetters.length; i++){
-            if (allLetters[i].textContent===letter){
-                allLetters[i].className+=" show";
-            }
-            
-        }
-        
+  }
+
+  showMatchedLetter(letter) {
+    const letters = document.querySelectorAll('#phrase li');
+    // loop through the phrase and give any matched letter the 'show' class
+    letters.forEach(key => {
+      if (key.textContent === letter) {
+        key.setAttribute('class', 'show');
+      }
+    });
+  }
 }
 
-
-
-    }
