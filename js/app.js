@@ -1,35 +1,29 @@
-const startButton = document.getElementById('btn__reset');
 const game = new Game();
-
-startButton.addEventListener('click', function() {
-  // remove all li elements from the phrase
-  const phraseDisplay = document.querySelectorAll('#phrase li');
-  phraseDisplay.forEach(item => {
-    item.remove();
-  });
-
-  // enable all the onscreen keyboard buttons
-  const keyboard = document.querySelectorAll('.keyrow button');
-
-  keyboard.forEach(key => {
-    key.setAttribute('class', 'key');
-  });
-
-  // reset all the heart images
-  const lives = document.querySelectorAll('.tries');
-
-  lives.forEach(live => {
-    let img = live.firstChild;
-    img.setAttribute('src', 'images/liveHeart.png');
-  });
-
-  game.startGame();
+const startButton = document.getElementById('btn__reset');
+startButton.addEventListener('click', () => {
+game.startGame();
 });
 
-// register clicks keyboard buttons
-const keyBoard = document.getElementById('qwerty');
-keyBoard.addEventListener('click', function(e) {
-  if (e.target.tagName === 'BUTTON') {
-    game.handleInteraction(e.target);
+//add functionality when clicking game characters
+const keys = document.getElementsByClassName('key');
+ for (let i = 0; i < keys.length; i ++) {
+    keys[i].addEventListener("click", (event) => {
+  game.handleInteraction(event.target);
+  console.log(event.target);
+    });
+}; 
+
+//add keydown functionality so users can use their keyboard
+const overlay = document.getElementById("overlay");
+document.addEventListener('keydown', (e) => {
+  //if the overlay is not showing
+  if (overlay.style.display === 'none') {
+      for (let i = 0; i < keys.length; i++) {
+        //if the key pressed matches an onscreen character
+          if (e.key === keys[i].textContent ) {
+            //call handleInteraction on that key
+              game.handleInteraction(keys[i])
+          }
+      }
   }
-});
+})
